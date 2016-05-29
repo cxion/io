@@ -1,0 +1,66 @@
+是什么，解决什么问题，怎么解决的，如何改进
+
+LIO kernel Target Subsystem【1】
+what is it
+    LIO（Linux-IO Target）是linux中的标准的开源的SCSI（small computer system interface） target。所谓的SCSI target就是指，接受访问的实体。
+	它支持所有流行的存储结构 。它可以支持FCoE,iSCSI,iSER和SRP。
+what it do
+    支持快速增长的交换结构模块，和所有现有的linux块设备作为backstores
+how to do
+    前端：交换结构模块实现了协议在不同的交换结构上传输数据，提供了独立的传输媒介（个人理解 屏蔽了设备的不同）
+    后端：Backstores 实现了在设备上获取数据的方法，实现了存储媒介独立
+    架构：实现了通用SCSI的架构（具体参照引用1）
+    先进SCSI特征集：
+	Persistent Reservations (PRs持久存储)用于IO防护和错误恢复
+	Asymmetric Logical Unit Assignment (ALUA非对称逻辑单元分配)允许每个Linux IO目标管理用方便的方式管理访问状态和路劲属性【2】
+	Error Recovery Levels (ERL=0,1,2)在iSCSI或者iSER中引导iSCSI连接登录被协商【3】
+	Active/active task migration and session continuation (ERL=2)
+	Protocol multiplexing, load-balancing and failover (MC/S)
+	T10 Data Integrity Format (DIF)
+	vStorage APIs for Array Integration (VAAI)
+
+
+
+LVM【4】 Cache
+what is it
+    利用LVM（逻辑分卷管理器）cache是LVM的一个新特性（2014-05-22【5】），
+what does it do 
+    加速硬盘的访问【5】
+how  does it to
+    可以用一个高速的磁盘的逻辑分卷（例如SSD作为快速持久化cache）加速硬盘的访问
+使用方法
+	【5】【6】
+Storage Array Management with libStorageMgmt API
+是什么
+    libStorageMgmt是一个存储阵列独立的应用编程接口，【7】
+do what
+    它使编程者可通过程序管理不同的存储整列，利用硬盘加速的属性，系统管理员可以用他作为手动配置存储和自动存储管理任务的工具【7】
+how
+    如何使用它【8】
+what to improve
+     ???
+
+Support for LSI Syncro
+
+LVM Application Programming Interface
+
+DIF/DIX Support
+
+Support of Parallel NFS【7】
+是什么
+    NFS v4.1标准中的一部分
+干什么
+    允许用户并行独立的访问存储设备，可以提高可扩展性和NFS服务器的性能。分为三层，文件，对象和快
+
+【9】
+
+
+【1】 http://linux-iscsi.org/wiki/Main_Page
+【2】 http://linux-iscsi.org/wiki/Asymmetric_Logical_Unit_Assignment
+【3】http://linux-iscsi.org/wiki/Error_Recovery_Level
+【4】https://wiki.archlinux.org/index.php/LVM_(%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87)
+【5】https://rwmj.wordpress.com/2014/05/22/using-lvms-new-cache-feature/
+【6】http://www.man7.org/linux/man-pages/man7/lvmcache.7.html
+【7】https://access.redhat.com/documentation/en-US/Red_Hat_Enterprise_Linux/7/html/7.0_Release_Notes/chap-Red_Hat_Enterprise_Linux-7.0_Release_Notes-Storage.html
+【8】http://libstorage.github.io/libstoragemgmt-doc/
+【9】
